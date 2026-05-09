@@ -37,7 +37,7 @@ const run = async()=>{
         app.get('/users', async(req,res)=>{
             const cursor = userCollection.find();
             const result = await cursor.toArray();
-            res.send(result);
+            res.send    (result);
         })
 
         await client.db('admin').command({ping:1});
