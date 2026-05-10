@@ -1,3 +1,25 @@
+import { revalidatePath } from "next/cache";
+
+export const createUser = async(formData)=>{
+    'use server'
+    const newUser = Object.fromEntries(formData.entries());
+    console.log(newUser,"newUser")
+    const res = await fetch('http://localhost:5000/users',{
+        method: 'POST',
+        headers:{
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+    });
+    const data = await res.json();
+
+
+    if(data.insertedId){
+        revalidatePath('/users')
+    }
+    return data;
+}
+
 export const deleteUser = async(userId)=>{
     'use server';
 
@@ -5,6 +27,9 @@ export const deleteUser = async(userId)=>{
         method: 'DELETE'
     });
     const data = await res.json();
+    if(data.deletedCount > 0){
+        revalidatePath('/users')
+    }
 
     // revalidate data
     return data;
