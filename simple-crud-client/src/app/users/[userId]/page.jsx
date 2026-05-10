@@ -9,7 +9,7 @@ const UserDetailPage = async({params}) => {
 
     return (
         <div>
-            <h2>Details page</h2>
+            <h2>Details page: {user.name}</h2>
         </div>
     );
 };
